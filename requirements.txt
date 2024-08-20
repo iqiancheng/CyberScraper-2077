@@ -14,3 +14,5 @@ markdown
 aiohttp
 python-dotenv
 watchdog
+ollama
+playwright_stealth
