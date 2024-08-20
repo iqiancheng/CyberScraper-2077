@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cyberscraper-2077-app
+    container_name: cyberscraper2077
+    ports:
+      - "8501:8501"
+    environment:
+      - TZ=Asia/Singapore
+      - MODEL_NAME=ollama:qwen2:latest
+      - OPENAI_API_KEY={$OPENAI_API_KEY}
+      - OPENAI_BASE_URL={$OPENAI_BASE_URL}
+      - OLLAMA_HOST=host.docker.internal
+      - HTTP_PROXY=http://host.docker.internal:7890
+      - HTTPS_PROXY=http://host.docker.internal:7890
+      - NO_PROXY=host.docker.internal,localhost,127.0.0.1
+    volumes:
+      - .:/app
+    command: streamlit run main.py
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - ollama_network
+
+networks:
+  ollama_network:
+    driver: bridge
